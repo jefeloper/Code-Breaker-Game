@@ -7,4 +7,12 @@
 
 import Foundation
 
-struct CodeBreaker {}
+struct CodeBreaker {
+    let masterCode: Code
+    let guessCode: Code
+    let prevAttempts: [Code]
+}
+
+struct Code {
+    let 
+}
