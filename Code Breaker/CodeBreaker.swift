@@ -14,5 +14,15 @@ struct CodeBreaker {
 }
 
 struct Code {
-    let 
+    let alphabets: [CodeAlphabet]
 }
+
+extension Code {
+    enum Kind {
+        case masterCode
+        case guessCode
+        case attemptCode
+    }
+}
+
+struct CodeAlphabet {}
