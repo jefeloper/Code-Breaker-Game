@@ -11,7 +11,7 @@ import SwiftUI
 struct Code_BreakerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CodeBreakerView()
         }
     }
 }
