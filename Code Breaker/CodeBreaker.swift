@@ -8,21 +8,26 @@
 import Foundation
 
 struct CodeBreaker {
-    let masterCode: Code
-    let guessCode: Code
-    let prevAttempts: [Code]
-}
+    let masterCode: Code = .init(alphabets: [
+        .purple,
+        .green,
+        .orange,
+        .purple
+    ], kind: .masterCode)
+    let guessCode: Code = .init(alphabets: [
+        .guessPlaceHolder,
+        .guessPlaceHolder,
+        .guessPlaceHolder,
+        .guessPlaceHolder
+    ], kind: .guessCode)
+    let prevAttempts: [Code] = []
 
-struct Code {
-    let alphabets: [CodeAlphabet]
+    let Alphabet: Set<CodeAlphabet> = [
+        .green,
+        .blue,
+        .yellow,
+        .orange,
+        .purple,
+        .red
+    ]
 }
-
-extension Code {
-    enum Kind {
-        case masterCode
-        case guessCode
-        case attemptCode
-    }
-}
-
-struct CodeAlphabet {}
