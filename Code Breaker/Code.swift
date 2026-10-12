@@ -6,7 +6,7 @@
 //
 
 struct Code {
-    let alphabets: [CodeAlphabet]
+    var alphabets: [CodeAlphabet]
     let kind: Kind
 }
 

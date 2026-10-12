@@ -8,13 +8,48 @@
 import SwiftUI
 
 struct CodeBreakerView: View {
-    let game = CodeBreaker()
-    
+    @State var game = CodeBreaker()
+
     var body: some View {
-        Text("test")
+        VStack {
+            self.codeView(for: self.game.masterCode)
+            self.codeView(for: self.game.guessCode)
+            ForEach(self.game.prevAttempts.indices.reversed(), id: \.self) {
+                self.codeView(for: self.game.prevAttempts[$0])
+            }
+        }
+        .padding()
+    }
+
+    @ViewBuilder
+    func codeView(for code: Code) -> some View {
+        let colors = code.alphabets.map { $0.getColor() }
+        HStack {
+            ForEach(colors.indices, id: \.self) { index in
+                RoundedRectangle(cornerRadius: 15)
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(colors[index])
+                    .onTapGesture {
+                        guard code.kind == .guessCode else { return }
+                        self.game.changeGuessAlphabet(at: index)
+                    }
+            }
+        }
     }
 }
 
 #Preview {
     CodeBreakerView()
+}
+
+extension CodeAlphabet {
+    func getColor() -> Color {
+        switch self.kind {
+        case .color(let colorString):
+            guard let color = Color(hex: colorString) else { fatalError() }
+            return color
+        case .toGuess: return Color.black
+        default: fatalError()
+        }
+    }
 }

@@ -14,7 +14,7 @@ struct CodeBreaker {
         .orange,
         .purple
     ], kind: .masterCode)
-    let guessCode: Code = .init(alphabets: [
+    var guessCode: Code = .init(alphabets: [
         .guessPlaceHolder,
         .guessPlaceHolder,
         .guessPlaceHolder,
@@ -22,7 +22,7 @@ struct CodeBreaker {
     ], kind: .guessCode)
     let prevAttempts: [Code] = []
 
-    let Alphabet: Set<CodeAlphabet> = [
+    let alphabet: Set<CodeAlphabet> = [
         .green,
         .blue,
         .yellow,
@@ -30,4 +30,16 @@ struct CodeBreaker {
         .purple,
         .red
     ]
+
+    lazy var arrayAlphabet: [CodeAlphabet] = Array(self.alphabet)
+
+    mutating func getShfitedCodeAlphabet(for codeAlphabet: CodeAlphabet) -> CodeAlphabet {
+        guard let index = arrayAlphabet.firstIndex(of: codeAlphabet) else { return arrayAlphabet.first ?? CodeAlphabet.guessPlaceHolder }
+        let shiftedIndex = (index + 1) % alphabet.count
+        return arrayAlphabet[shiftedIndex]
+    }
+
+    mutating func changeGuessAlphabet(at index: Int) {
+        guessCode.alphabets[index] = getShfitedCodeAlphabet(for: guessCode.alphabets[index])
+    }
 }
