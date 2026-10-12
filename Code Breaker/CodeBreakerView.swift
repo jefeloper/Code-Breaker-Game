@@ -48,7 +48,7 @@ extension CodeAlphabet {
         case .color(let colorString):
             guard let color = Color(hex: colorString) else { fatalError() }
             return color
-        case .toGuess: return Color.black
+        case .toGuess: return Color.clear
         default: fatalError()
         }
     }
