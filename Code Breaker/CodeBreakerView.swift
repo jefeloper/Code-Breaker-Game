@@ -29,6 +29,13 @@ struct CodeBreakerView: View {
         HStack {
             ForEach(colors.indices, id: \.self) { index in
                 RoundedRectangle(cornerRadius: 15)
+                    .overlay {
+                        if code.alphabets[index] == .guessPlaceHolder {
+                            RoundedRectangle(cornerRadius: 15)
+                                .strokeBorder(.gray)
+                        }
+                    }
+                    .contentShape(Rectangle())
                     .aspectRatio(contentMode: .fit)
                     .foregroundStyle(colors[index])
                     .onTapGesture {
@@ -36,8 +43,9 @@ struct CodeBreakerView: View {
                         self.game.changeGuessAlphabet(at: index)
                     }
             }
+
             switch code.kind {
-            case .masterCode: Circle().foregroundStyle(.clear)
+            case .masterCode: Text("")
             case .guessCode: self.guessButton
             case .attemptCode: MatchesView(matches: self.game.getSortedMatch(against: code))
             }
@@ -65,7 +73,7 @@ extension CodeAlphabet {
         case .color(let colorString):
             guard let color = Color(hex: colorString) else { fatalError() }
             return color
-        case .toGuess: return Color.gray
+        case .toGuess: return Color.clear
         default: fatalError()
         }
     }
