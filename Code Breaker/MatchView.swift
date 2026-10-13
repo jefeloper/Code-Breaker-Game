@@ -14,6 +14,7 @@ struct MatchView: View {
         Circle()
             .fill(match == .exact ? Color.primary : Color.clear)
             .strokeBorder(match == .inexact ? Color.primary : Color.clear, lineWidth: 2)
+            .aspectRatio(1, contentMode: .fit)
     }
 }
 

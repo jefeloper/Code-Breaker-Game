@@ -13,8 +13,8 @@ struct CodeBreakerView: View {
     var body: some View {
         VStack {
             self.codeView(for: self.game.masterCode)
+            self.codeView(for: self.game.guessCode)
             ScrollView {
-                self.codeView(for: self.game.guessCode)
                 ForEach(self.game.prevAttempts.indices.reversed(), id: \.self) {
                     self.codeView(for: self.game.prevAttempts[$0])
                 }
@@ -36,16 +36,22 @@ struct CodeBreakerView: View {
                         self.game.changeGuessAlphabet(at: index)
                     }
             }
-            if code.kind == .guessCode {
-                Button("Guess!") {
-                    withAnimation {
-                        self.game.makeGuess()
-                    }
-                }
-            } else if code.kind == .attemptCode {
-                MatchesView(matches: self.game.masterCode.getSortedMatch(against: code))
+            switch code.kind {
+            case .masterCode: Circle().foregroundStyle(.clear)
+            case .guessCode: self.guessButton
+            case .attemptCode: MatchesView(matches: self.game.getSortedMatch(against: code))
             }
         }
+    }
+
+    var guessButton: some View {
+        Button("Guess!") {
+            withAnimation {
+                self.game.makeGuess()
+            }
+        }
+        .font(.system(size: 80))
+        .minimumScaleFactor(0.1)
     }
 }
 

@@ -42,4 +42,37 @@ struct CodeBreaker {
         prevAttempts.append(Code(alphabets: guessCode.alphabets, kind: .attemptCode))
         guessCode = Code.createEmptyGuessCode()
     }
+
+    func getMatch(against code: Code) -> [Code.Match] {
+        guard code.kind == .attemptCode else { return [] }
+        var result = [Code.Match](repeating: .nomatch, count: masterCode.alphabets.count)
+        var pegsToMatch = code.alphabets
+        for (index, item) in masterCode.alphabets.enumerated().reversed() {
+            if pegsToMatch.count > index, pegsToMatch[index] == item {
+                result[index] = .exact
+                pegsToMatch.remove(at: index)
+            }
+        }
+        for (index, item) in result.enumerated() where item != .exact {
+            if let inexactIndex = pegsToMatch.firstIndex(of: self.masterCode.alphabets[index]) {
+                result[index] = .inexact
+                pegsToMatch.remove(at: inexactIndex)
+            }
+        }
+        return result
+    }
+
+    func getSortedMatch(against otherCode: Code) -> [Code.Match] {
+        let result = getMatch(against: otherCode)
+
+        return result.sorted {
+            switch ($0, $1) {
+            case (.exact, _): return true
+            case (_, .nomatch): return true
+            case (.nomatch, _): return false
+            case (_, .exact): return false
+            default: return true
+            }
+        }
+    }
 }

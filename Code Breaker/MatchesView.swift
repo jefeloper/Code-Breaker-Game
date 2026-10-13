@@ -13,12 +13,20 @@ struct MatchesView: View {
     var body: some View {
         VStack {
             HStack {
-                MatchView(match: self.matches[0])
-                MatchView(match: self.matches[1])
+                if matches.count > 0 {
+                    MatchView(match: self.matches[0])
+                }
+                if matches.count > 1 {
+                    MatchView(match: self.matches[1])
+                }
             }
             HStack {
-                MatchView(match: self.matches[2])
-                MatchView(match: self.matches[3])
+                if matches.count > 2 {
+                    MatchView(match: self.matches[2])
+                }
+                if matches.count > 3 {
+                    MatchView(match: self.matches[3])
+                }
             }
         }
     }
