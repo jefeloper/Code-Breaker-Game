@@ -17,3 +17,14 @@ extension Code {
         case attemptCode
     }
 }
+
+extension Code {
+    static func createEmptyGuessCode() -> Code {
+        return Code(alphabets: [
+            .guessPlaceHolder,
+            .guessPlaceHolder,
+            .guessPlaceHolder,
+            .guessPlaceHolder
+        ], kind: .guessCode)
+    }
+}

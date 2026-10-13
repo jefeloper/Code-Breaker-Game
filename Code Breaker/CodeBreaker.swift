@@ -8,19 +8,14 @@
 import Foundation
 
 struct CodeBreaker {
-    let masterCode: Code = .init(alphabets: [
+    let masterCode = Code(alphabets: [
         .purple,
         .green,
         .orange,
         .purple
     ], kind: .masterCode)
-    var guessCode: Code = .init(alphabets: [
-        .guessPlaceHolder,
-        .guessPlaceHolder,
-        .guessPlaceHolder,
-        .guessPlaceHolder
-    ], kind: .guessCode)
-    let prevAttempts: [Code] = []
+    var guessCode = Code.createEmptyGuessCode()
+    var prevAttempts: [Code] = []
 
     let alphabet: Set<CodeAlphabet> = [
         .green,
@@ -41,5 +36,10 @@ struct CodeBreaker {
 
     mutating func changeGuessAlphabet(at index: Int) {
         guessCode.alphabets[index] = getShfitedCodeAlphabet(for: guessCode.alphabets[index])
+    }
+
+    mutating func makeGuess() {
+        prevAttempts.append(Code(alphabets: guessCode.alphabets, kind: .attemptCode))
+        guessCode = Code.createEmptyGuessCode()
     }
 }

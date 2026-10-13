@@ -13,9 +13,11 @@ struct CodeBreakerView: View {
     var body: some View {
         VStack {
             self.codeView(for: self.game.masterCode)
-            self.codeView(for: self.game.guessCode)
-            ForEach(self.game.prevAttempts.indices.reversed(), id: \.self) {
-                self.codeView(for: self.game.prevAttempts[$0])
+            ScrollView {
+                self.codeView(for: self.game.guessCode)
+                ForEach(self.game.prevAttempts.indices.reversed(), id: \.self) {
+                    self.codeView(for: self.game.prevAttempts[$0])
+                }
             }
         }
         .padding()
@@ -34,6 +36,13 @@ struct CodeBreakerView: View {
                         self.game.changeGuessAlphabet(at: index)
                     }
             }
+            if code.kind == .guessCode {
+                Button("Guess!") {
+                    withAnimation {
+                        self.game.makeGuess()
+                    }
+                }
+            }
         }
     }
 }
@@ -48,7 +57,7 @@ extension CodeAlphabet {
         case .color(let colorString):
             guard let color = Color(hex: colorString) else { fatalError() }
             return color
-        case .toGuess: return Color.clear
+        case .toGuess: return Color.gray
         default: fatalError()
         }
     }
