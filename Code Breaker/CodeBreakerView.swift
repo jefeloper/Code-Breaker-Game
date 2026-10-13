@@ -42,6 +42,8 @@ struct CodeBreakerView: View {
                         self.game.makeGuess()
                     }
                 }
+            } else if code.kind == .attemptCode {
+                MatchesView(matches: self.game.masterCode.getSortedMatch(against: code))
             }
         }
     }
